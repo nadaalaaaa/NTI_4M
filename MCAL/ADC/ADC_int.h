@@ -1,10 +1,4 @@
-/****************************************************************/
-/*   Author             :    Ahmed Atia Atia 				    */
-/*	 Date 				:    2 May 2019  						*/
-/*	 Version 			:    1.0V 							 	*/
-/*	 Description 		:   public Accessing mechanism prototype*/
-/*							and Sense Mode Definition [int.h] 	*/
-/****************************************************************/
+
 
 
 
