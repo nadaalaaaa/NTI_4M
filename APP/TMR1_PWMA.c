@@ -5,7 +5,7 @@
  * Author : dell
  */ 
 
-#define F_CPU 16000000UL
+#define F_CPU 8000000UL
 #include <avr/delay.h>
 #include "bit_math.h"
 #include "std_types.h"
@@ -15,9 +15,17 @@
 #include "TIMR00_priv.h"
 #include "TIMR0_config.h"
 #include "TIMR0_int.h"
+#include "TIMR1_priv.h"
+#include "TIMR1_config.h"
+#include "TIMR1_init.h"
+#include "TIMR2_priv.h"
+#include "TIMR2_config.h"
+#include "TIMR2_int.h"
 #include "led.h"
 #include "led_config.h"
 #include "GIE.h"
+
+
 
 /* timer0 overflow interrupt */
 
@@ -29,15 +37,17 @@ void fun(void){
 }
 
 int main( void )
-{  
+{ 
+	
 	led_init(led1); //PD0
-	TIMER0_void_Init();
-
-	dio_vidConfigChannel(DIO_PORTB,3,OUTPUT);//oc0
+	TIMER1_void_Init();
+	dio_vidConfigChannel(DIO_PORTD,5,OUTPUT);//oc1A
 	while(1)
 	{
 		for(u8 j=0;j<=255;j++){
-			TIMER0_void_SetCompareVal(j);
+			TIMER1_void_SetCompareValA(j);
 		}
 	}
+	
+	
 }

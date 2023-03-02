@@ -28,17 +28,18 @@
 
 u8 counts=0;
 void fun(void){
-	if(counts==5){led_toggle(led1); counts=0; TIMER0_void_SetTimerReg(66);}
+	if(counts==5){led_toggle(led1); counts=0; TIMER2_void_SetTimerReg(66);}
 	else counts++;
 	
 }
 
 int main( void )
-{  TIMER0_void_SetOVCallBack(fun ) ;
+{  
+	TIMER2_void_SetOVCallBack(fun ) ;
 	led_init(led1); //PD0
-	TIMER0_void_Init();
-	TIMER0_void_SetTimerReg(66);
-	TIMER0_void_EnableOVInt();
+	TIMER2_void_Init();
+	TIMER2_void_SetTimerReg(66);
+	TIMER2_void_EnableOVInt();
 	GIE_enable();
 	while(1);
 }
