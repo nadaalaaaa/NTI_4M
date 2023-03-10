@@ -25,11 +25,17 @@
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 
-#define buttonport DIO_PORTD
-#define buttonpin1 DIO_PIN7
-#define buttonpin2 DIO_PIN6
-#define buttonpin3 DIO_PIN5
-#define buttonpin4 DIO_PIN3
+#define buttonport1 DIO_PORTD
+#define buttonport2 DIO_PORTD
+#define buttonport3 DIO_PORTD
+#define buttonport4 DIO_PORTD
+#define buttonport5 DIO_PORTC
+#define buttonport6 DIO_PORTC
+
+#define buttonpin1 DIO_PIN3
+#define buttonpin2 DIO_PIN5
+#define buttonpin3 DIO_PIN6
+#define buttonpin4 DIO_PIN7
 #define buttonpin5 DIO_PIN4
 #define buttonpin6 DIO_PIN5
 

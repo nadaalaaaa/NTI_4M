@@ -4,31 +4,32 @@
  * Created: 18/02/2023 13:44:52
  *  Author: dell
  */ 
-#define F_CPU 16000000
+#define F_CPU 8000000
+#include <avr/delay.h>
 #include "dio.h"
 #include "lcd.h"
 #include "lcd_config.h"
-#include <avr/delay.h>
+
 
 void lcd_init(void){
-	dio_vidConfigChannel(LCD_PORT, RS, OUTPUT_PIN);
-	dio_vidConfigChannel(LCD_PORT, EN, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTRS, RS, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTE, EN, OUTPUT_PIN);
 	#if LCD_MODE==8
 	#elif LCD_MODE==4
-	dio_vidConfigChannel(LCD_PORT, D4, OUTPUT_PIN);
-	dio_vidConfigChannel(LCD_PORT, D5, OUTPUT_PIN);
-	dio_vidConfigChannel(LCD_PORT, D6, OUTPUT_PIN);
-	dio_vidConfigChannel(LCD_PORT, D7, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTD4, D4, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTD5, D5, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTD6, D6, OUTPUT_PIN);
+	dio_vidConfigChannel(LCD_PORTD7, D7, OUTPUT_PIN);
 	
 	_delay_ms(40);
-	dio_vidWriteChannel(LCD_PORT, RS, LOW);
-	dio_vidWriteChannel(LCD_PORT, D4, LOW);
-	dio_vidWriteChannel(LCD_PORT, D5, HIGH);
-    dio_vidWriteChannel(LCD_PORT, D6, LOW);
-	dio_vidWriteChannel(LCD_PORT, D7, LOW);
-	dio_vidWriteChannel(LCD_PORT, EN, HIGH);
+	dio_vidWriteChannel(LCD_PORTRS, RS, LOW);
+	dio_vidWriteChannel(LCD_PORTD4, D4, LOW);
+	dio_vidWriteChannel(LCD_PORTD5, D5, HIGH);
+    dio_vidWriteChannel(LCD_PORTD6, D6, LOW);
+	dio_vidWriteChannel(LCD_PORTD7, D7, LOW);
+	dio_vidWriteChannel(LCD_PORTE, EN, HIGH);
 	_delay_ms(5);
-	dio_vidWriteChannel(LCD_PORT, EN, LOW);
+	dio_vidWriteChannel(LCD_PORTE, EN, LOW);
 	_delay_ms(5);
 	lcd_sendCmd(0b00000010);
 	lcd_sendCmd(0b00101000);
@@ -50,25 +51,32 @@ void lcd_sendCmd(lcd_Cmd_Type cmd){
 	
 	#if LCD_MODE==8
 	#elif LCD_MODE==4
-	dio_vidWriteChannel(LCD_PORT, RS, LOW);  //CMD MODE
-
-	dio_vidWriteChannelGroup(LCD_PORT,cmd>>4,0b01111000,3); //WRITE CMD LAST FOUR BITS
+	dio_vidWriteChannel(LCD_PORTRS, RS, LOW);  //CMD MODE
 	
-	dio_vidWriteChannel(LCD_PORT, EN, HIGH); //START ENABLE PULSE
+    dio_vidWriteChannel(LCD_PORTD4,D4, CHECK_BIT(cmd,4));
+	dio_vidWriteChannel(LCD_PORTD4,D5, CHECK_BIT(cmd,5));
+	dio_vidWriteChannel(LCD_PORTD4,D6, CHECK_BIT(cmd,6));
+	dio_vidWriteChannel(LCD_PORTD4,D7, CHECK_BIT(cmd,7));
+	//dio_vidWriteChannelGroup(LCD_PORTD4,cmd>>4,0b01111000,3); //WRITE CMD LAST FOUR BITS
+	
+	dio_vidWriteChannel(LCD_PORTE, EN, HIGH); //START ENABLE PULSE
 	_delay_ms(5);
-	dio_vidWriteChannel(LCD_PORT, EN, LOW); //END ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTE, EN, LOW); //END ENABLE PULSE
 	
-	
-	dio_vidWriteChannelGroup(LCD_PORT,cmd,0b01111000,3); //WRITE CMD FIRST FOUR BITS
-	dio_vidWriteChannel(LCD_PORT, EN, HIGH); //START ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTD4,D4, CHECK_BIT(cmd,0));
+	dio_vidWriteChannel(LCD_PORTD4,D5, CHECK_BIT(cmd,1));
+	dio_vidWriteChannel(LCD_PORTD4,D6, CHECK_BIT(cmd,2));
+	dio_vidWriteChannel(LCD_PORTD4,D7, CHECK_BIT(cmd,3));
+	//dio_vidWriteChannelGroup(LCD_PORTD4,cmd,0b01111000,3); //WRITE CMD FIRST FOUR BITS
+	dio_vidWriteChannel(LCD_PORTE, EN, HIGH); //START ENABLE PULSE
 	_delay_ms(5);
-	dio_vidWriteChannel(LCD_PORT, EN, LOW); //END ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTE, EN, LOW); //END ENABLE PULSE
 	
 	#endif
 	
 }
 void lcd_gotoRowColumn(u8 row, u8 column){
-	u8 Address;
+	u8 Address=0;
 	switch(row)
 	{
 		case 0:
@@ -86,22 +94,44 @@ void lcd_displyChar(u8 chr){
 	
 	#if LCD_MODE==8
 	#elif LCD_MODE==4
-	dio_vidWriteChannel(LCD_PORT, RS, HIGH);  //DATA MODE
+	dio_vidWriteChannel(LCD_PORTRS, RS, HIGH);  //DATA MODE
 	
-	dio_vidWriteChannelGroup(LCD_PORT,chr>>4,0b01111000,3); //WRITE DATA LAST FOUR BITS
+	dio_vidWriteChannel(LCD_PORTD4,D4, CHECK_BIT(chr,4));
+	dio_vidWriteChannel(LCD_PORTD4,D5, CHECK_BIT(chr,5));
+	dio_vidWriteChannel(LCD_PORTD4,D6, CHECK_BIT(chr,6));
+	dio_vidWriteChannel(LCD_PORTD4,D7, CHECK_BIT(chr,7));
+	//dio_vidWriteChannelGroup(LCD_PORTD4,chr>>4,0b01111000,3); //WRITE DATA LAST FOUR BITS
 	
-	dio_vidWriteChannel(LCD_PORT, EN, HIGH); //START ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTE, EN, HIGH); //START ENABLE PULSE
 	_delay_ms(5);
-	dio_vidWriteChannel(LCD_PORT, EN, LOW); //END ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTE, EN, LOW); //END ENABLE PULSE
 	
-	
-	dio_vidWriteChannelGroup(LCD_PORT,chr,0b01111000,3); //WRITE DATA LAST FOUR BITS
-	dio_vidWriteChannel(LCD_PORT, EN, HIGH); //START ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTD4,D4, CHECK_BIT(chr,0));
+	dio_vidWriteChannel(LCD_PORTD4,D5, CHECK_BIT(chr,1));
+	dio_vidWriteChannel(LCD_PORTD4,D6, CHECK_BIT(chr,2));
+	dio_vidWriteChannel(LCD_PORTD4,D7, CHECK_BIT(chr,3));
+	//dio_vidWriteChannelGroup(LCD_PORTD4,chr,0b01111000,3); //WRITE DATA LAST FOUR BITS
+	dio_vidWriteChannel(LCD_PORTE, EN, HIGH); //START ENABLE PULSE
 	_delay_ms(5);
-	dio_vidWriteChannel(LCD_PORT, EN, LOW); //END ENABLE PULSE
+	dio_vidWriteChannel(LCD_PORTE, EN, LOW); //END ENABLE PULSE
 	
 	#endif
 	
+}
+void LCDConvertINTtoSTR(u16 val){
+	static u8 converted_val[16];
+	u8* ptr=&converted_val[15];
+	*ptr='\0';
+	if(val==0){
+		ptr--;
+		*ptr='0';
+	}
+	while(val!=0){
+		ptr--;
+		*ptr=(val%10)+'0';
+		val/=10;
+	}
+	lcd_displyStr(ptr);
 }
 void lcd_displyStr(u8* str){
 	u8 i = 0;

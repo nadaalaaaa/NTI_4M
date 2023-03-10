@@ -22,18 +22,18 @@
 #define N_row 4
 
 /* Keypad Port Configurations */
-#define KEYPAD_PORT1_IN DIO_PORTB 
+#define KEYPAD_PORT1_IN DIO_PORTC
 #define KEYPAD_PORT2_OUT DIO_PORTD
 
 
-#define B4  DIO_PIN4
-#define B5  DIO_PIN5
-#define B6  DIO_PIN6
-#define B7  DIO_PIN7
-#define D2  DIO_PIN2
-#define D3  DIO_PIN3
-#define D4  DIO_PIN4
-#define D5  DIO_PIN5
+#define B4  DIO_PIN5
+#define B5  DIO_PIN4
+#define B6  DIO_PIN3
+#define B7  DIO_PIN2
+#define D2  DIO_PIN7
+#define D3  DIO_PIN6
+#define D4  DIO_PIN5
+#define D5  DIO_PIN3
 
 #define INPUT 0
 #define OUTPUT 1

@@ -48,17 +48,10 @@
 * \Parameters (in) : None
 * \Return value:   : None                            
 *******************************************************************************/
-void led_init(u8 ledID){
-	switch(ledID){
-		case 1:	dio_vidConfigChannel(ledport, ledpin1, OUTPUT );
-		break;
-		case 2:	dio_vidConfigChannel(ledport, ledpin2, OUTPUT );
-		break;
-		case 3:	dio_vidConfigChannel(ledport, ledpin3, OUTPUT );
-		break;
-		
-	}
-	
+void led_init(void){
+	dio_vidConfigChannel(ledport1, ledpin1, OUTPUT );
+	dio_vidConfigChannel(ledport2, ledpin2, OUTPUT );
+	dio_vidConfigChannel(ledport3, ledpin3, OUTPUT );
 	
 }
 /******************************************************************************
@@ -74,21 +67,21 @@ void led_init(u8 ledID){
 void led_on(u8 ledID){
 	#if led_type==source
 	switch(ledID){
-		case 1:dio_vidWriteChannel(ledport, ledpin1, STD_HIGH);
+		case 1:dio_vidWriteChannel(ledport1, ledpin1, STD_HIGH);
 		break;
-		case 2:dio_vidWriteChannel(ledport, ledpin2 ,STD_HIGH);
+		case 2:dio_vidWriteChannel(ledport2, ledpin2 ,STD_HIGH);
 		break;
-		case 3:dio_vidWriteChannel(ledport, ledpin3 ,STD_HIGH);
+		case 3:dio_vidWriteChannel(ledport3, ledpin3 ,STD_HIGH);
 		break;
 		
 	}
 	#else
 	switch(ledID){
-		case 1:dio_vidWriteChannel(ledport, ledpin1, STD_LOW);
+		case 1:dio_vidWriteChannel(ledport1, ledpin1, STD_LOW);
 		break;
-		case 2:dio_vidWriteChannel(ledport, ledpin2, STD_LOW);
+		case 2:dio_vidWriteChannel(ledport2, ledpin2, STD_LOW);
 		break;
-		case 3:dio_vidWriteChannel(ledport, ledpin3, STD_LOW);
+		case 3:dio_vidWriteChannel(ledport3, ledpin3, STD_LOW);
 		break;
 		
 	}
@@ -107,20 +100,20 @@ void led_off(u8 ledID){
 	#if led_type==source
 	switch(ledID){
 		
-		case 1:dio_vidWriteChannel(ledport, ledpin1, STD_LOW);
+		case 1:dio_vidWriteChannel(ledport1, ledpin1, STD_LOW);
 		break;
-		case 2:dio_vidWriteChannel(ledport, ledpin2, STD_LOW);
+		case 2:dio_vidWriteChannel(ledport2, ledpin2, STD_LOW);
 		break;
-		case 3:dio_vidWriteChannel(ledport, ledpin3, STD_LOW);
+		case 3:dio_vidWriteChannel(ledport3, ledpin3, STD_LOW);
 		break;
 	}
 	#else
 	switch(ledID){
-		case 1:dio_vidWriteChannel(ledport, ledpin1, STD_HIGH);
+		case 1:dio_vidWriteChannel(ledport1, ledpin1, STD_HIGH);
 		break;
-		case 2:dio_vidWriteChannel(ledport, ledpin2, STD_HIGH);
+		case 2:dio_vidWriteChannel(ledport2, ledpin2, STD_HIGH);
 		break;
-		case 3:dio_vidWriteChannel(ledport, ledpin3, STD_HIGH);
+		case 3:dio_vidWriteChannel(ledport3, ledpin3, STD_HIGH);
 		break;
 		
 	}
@@ -140,11 +133,11 @@ void led_off(u8 ledID){
 *******************************************************************************/
 void led_toggle(u8 ledID){
 	switch(ledID){
-		case 1:dio_vidFlipChannel(ledport, ledpin1);
+		case 1:dio_vidFlipChannel(ledport1, ledpin1);
 		break;
-		case 2:dio_vidFlipChannel(ledport, ledpin2);
+		case 2:dio_vidFlipChannel(ledport2, ledpin2);
 		break;
-		case 3:dio_vidFlipChannel(ledport, ledpin3);
+		case 3:dio_vidFlipChannel(ledport3, ledpin3);
 		break;
 		
 	}

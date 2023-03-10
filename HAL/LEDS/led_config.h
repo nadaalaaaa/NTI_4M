@@ -23,10 +23,12 @@
  *********************************************************************************************************************/
 #define led_type source
 
-#define ledport DIO_PORTA
-#define ledpin1 DIO_PIN5
-#define ledpin2 DIO_PIN1
-#define ledpin3 DIO_PIN2
+#define ledport1 DIO_PORTB
+#define ledport2 DIO_PORTA
+#define ledport3 DIO_PORTA
+#define ledpin1 DIO_PIN7
+#define ledpin2 DIO_PIN4
+#define ledpin3 DIO_PIN5
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS

@@ -45,16 +45,18 @@ u8 KPD_arr[4][4]={ //arr of ascii characters
 
 u8 KPD_PressedKey(void){
 	u8 u8col,u8row,swval=0xff;
-	for(u8col=2;u8col<6;u8col++){ 
-		dio_vidWriteChannel(KEYPAD_PORT2_OUT , u8col , STD_LOW); //make col equal zero then loop this zero
-		for(u8row=4;u8row<8;u8row++){
+	for(u8col=4;u8col<8;u8col++){ 
+		if(u8col==4) dio_vidWriteChannel(KEYPAD_PORT2_OUT , 3 , STD_LOW);
+		else dio_vidWriteChannel(KEYPAD_PORT2_OUT , u8col , STD_LOW); //make col equal zero then loop this zero
+		for(u8row=2;u8row<6;u8row++){
 			if(dio_dioLevelReadChannel(KEYPAD_PORT1_IN, u8row)== STD_LOW){ //check if any row be equal zero
-				swval=KPD_arr[u8row-4][u8col-2]; //get character
+				swval=KPD_arr[u8row-2][u8col-4]; //get character
 				while(dio_dioLevelReadChannel(KEYPAD_PORT1_IN, u8row)== STD_LOW); //what until released
 				_delay_ms(150); //for debouncing
 			}
 		}
-		dio_vidWriteChannel(KEYPAD_PORT2_OUT , u8col , STD_HIGH); //return the col equal one
+		if(u8col==4) dio_vidWriteChannel(KEYPAD_PORT2_OUT , 3 , STD_HIGH);
+		else dio_vidWriteChannel(KEYPAD_PORT2_OUT , u8col , STD_HIGH); //return the col equal one
 	}
 	return swval; //return char ready to send to lcd
 }

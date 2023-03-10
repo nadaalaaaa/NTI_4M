@@ -11,14 +11,19 @@
 #ifndef LCD_H_
 #define LCD_H_
 
-#define LCD_PORT DIO_PORTA
+#define LCD_PORTRS DIO_PORTA
+#define LCD_PORTE  DIO_PORTA
+#define LCD_PORTD4 DIO_PORTB
+#define LCD_PORTD5 DIO_PORTB
+#define LCD_PORTD6 DIO_PORTB
+#define LCD_PORTD7 DIO_PORTB
 
-#define RS 1
+#define RS 3
 #define EN 2
-#define D4 3
-#define D5 4
-#define D6 5
-#define D7 6
+#define D4 0
+#define D5 1
+#define D6 2
+#define D7 4
 
 #define INPUT_PIN 0
 #define OUTPUT_PIN 1
@@ -33,6 +38,6 @@ void lcd_gotoRowColumn(u8 row, u8 column);
 void lcd_displyChar(u8 chr);
 void lcd_displyStr(u8* str);
 void lcd_customWrite(u8* custCfg);
-
+void LCDConvertINTtoSTR(u16 val);
 
 #endif /* LCD_H_ */
