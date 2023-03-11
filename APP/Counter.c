@@ -4,7 +4,8 @@
  * Created: 11/03/2023 08:41:16
  * Author : dell
  */ 
-
+#define F_CPU 8000000
+#include <avr/delay.h>
 #include "bit_math.h"
 #include "std_types.h"
 #include "dio.h"
@@ -21,14 +22,14 @@ int main(void)
 {
     lcd_init();
     lcd_sendCmd(CLEAR_COMMAND);
-	dio_vidConfigChannel(DIO_PORTB, 0,INPUT);
+	dio_vidConfigChannel(DIO_PORTB, 0,INPUT); //ENABLE COUNTER PIN
     TIMER0_void_Init();
-    TIMER0_void_EnableOVInt();
     u8 val=0;
     while (1)
     {
-	    val= TIMER0_GetTimerReg();
-	    LCDConvertINTtoSTR((u16)val);
+	    val= TIMER0_GetTimerReg(); //GET NUMBER OF COUNTS FROM TCNT0 REG
+	    LCDConvertINTtoSTR((u16)val); //DISPLAY NUMBER OF COUNTS
+		lcd_sendCmd(CLEAR_COMMAND);
 	    
     }
 }
